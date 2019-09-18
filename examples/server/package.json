@@ -1,0 +1,10 @@
+{
+	"name": "API-server",
+	"version": "1.0.0",
+	"description": "Example API server",
+	"main": "start.js",
+	"license": "MIT",
+	"dependencies": {
+		"pay-per-call": "git+https://github.com/Papabyte/pay-per-call-HTTP-API"
+	}
+}

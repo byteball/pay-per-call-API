@@ -1,0 +1,11 @@
+{
+  "name": "pay-per-call-HTTP-API",
+  "version": "1.0.0",
+  "description": "Library for pay-per-call API using payment channels",
+  "main": "api.js",
+  "license": "MIT",
+  "dependencies": {
+    "aa-channels-lib": "git+https://github.com/Papabyte/aa-channels-lib.git",
+    "ocore": "git+https://github.com/byteball/ocore.git#rocks-and-formulas"
+  }
+}
