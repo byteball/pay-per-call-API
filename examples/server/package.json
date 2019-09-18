@@ -5,6 +5,6 @@
 	"main": "start.js",
 	"license": "MIT",
 	"dependencies": {
-		"pay-per-call": "git+https://github.com/Papabyte/pay-per-call-HTTP-API"
+		"pay-per-call": "git+https://github.com/Papabyte/pay-per-call-API"
 	}
 }

@@ -1,11 +1,11 @@
-# pay-per-call-HTTP-API
+# pay-per-call-API
 
-This package provides an easy way to add pay-per-call payment to an existing API by using [O<sub>byte</sub> payment channels](https://github.com/Papabyte/aa-channels-lib/).
+This package provides an easy way to add pay-per-call payments to an existing API by using [O<sub>byte</sub> payment channels](https://github.com/Papabyte/aa-channels-lib/).
 On client side, a payment package object is generated on request. On server side, a function can verify the payment package and returns the amount received. 
 
 ## Server side
 
-* Add to your project `npm install --save https://github.com/Papabyte/pay-per-call-HTTP-API`
+* Add to your project `npm install --save https://github.com/Papabyte/pay-per-call-API`
 
 * Create a conf.js file in your project root folder
 
@@ -29,9 +29,9 @@ exports.unconfirmedAmountsLimitsByAssetOrChannel = { // limits for accepting pay
 }
 
 ```
-* Add to your project `npm install --save https://github.com/Papabyte/pay-per-call-HTTP-API`
+* Add to your project `npm install --save https://github.com/Papabyte/pay-per-call-API`
 
-* Require module `const payPerCall = require("pay-per-call-HTTP-API");`
+* Require module `const payPerCall = require("pay-per-call-API");`
 
 * Initialize `const payPerCallServer = new payPerCall.Server(max sweeping period in seconds);`
 
@@ -66,9 +66,9 @@ exports.deviceName = 'pay-per-call API client';
 exports.defaultTimeoutInSecond = 1000; // default timeout for channel creation
 ```
 
-* Require module `const payPerCall = require("pay-per-call-HTTP-API");`
+* Require module `const payPerCall = require("pay-per-call-API");`
 
-* Initialize `const payPerCallClient = new payPerCall.Client(peer url, asset, deposits amount, refill threshold);`
+* Initialize `const payPerCallClient = new payPerCall.Client(peer address, asset, deposits amount, refill threshold);`
 
 * Start client
 ```javascript
