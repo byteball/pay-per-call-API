@@ -45,11 +45,11 @@ payPerCallServer.startWhenReady().then(function(){ // server will actually start
 * Verify a payment package received from peer
 
 ```javascript
-	const objPayment = await payPerCallServer.verifyPaymentPackage(objPaymentPackage);
-	if (objPayment.error){
-		console.error(objPayment.error);
-	} else
-		console.error("Peer paid " + objPayment.amount + " in " + objPayment.asset + " using channel " + objPayment.aa_address);
+const objPayment = await payPerCallServer.verifyPaymentPackage(objPaymentPackage);
+if (objPayment.error){
+	console.error(objPayment.error);
+} else
+	console.error("Peer paid " + objPayment.amount + " in " + objPayment.asset + " using channel " + objPayment.aa_address);
 ```
 
 
@@ -57,10 +57,11 @@ payPerCallServer.startWhenReady().then(function(){ // server will actually start
 ```javascript
 try {
 	const objPaymentPackage = await payPerCallClient.getPaymentPackage(amount, aa_address).then(function(objPaymentPackage){
-	})
+	});
 } catch (error){
 	console.error("Couldn't create payment package, reason: " + error);
 }
+```
 
 ## Client side
 
@@ -101,11 +102,11 @@ try {
 * Verify a payment package received from server
 
 ```javascript
-	const objPayment = await payPerCallServer.verifyPaymentPackage(objPaymentPackage);
-	if (objPayment.error){
-		console.error(objPayment.error);
-	} else
-		console.error("Peer paid " + objPayment.amount + " in " + objPayment.asset + " using channel " + objPayment.aa_address);
+const objPayment = await payPerCallServer.verifyPaymentPackage(objPaymentPackage);
+if (objPayment.error){
+	console.error(objPayment.error);
+} else
+	console.error("Peer paid " + objPayment.amount + " in " + objPayment.asset + " using channel " + objPayment.aa_address);
 ```
 
 * Sweep channel (closing then reopening) when convenient `client.sweepChannel();`, it should happen within the max sweeping period imposed by the server.
