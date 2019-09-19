@@ -50,21 +50,12 @@ class Server {
 			})
 		});
 	}
-
 	verifyPaymentPackage(objPaymentPackage){
-		if (!isHeadlessReady)
-			throw Error("Headless not ready");
-		return new Promise((resolve, reject) => {
-			channels.verifyPaymentPackage(objPaymentPackage, (error, amount, asset)=>{
-				if (error){
-					console.log(error);
-					return resolve({amount:0, error: error});
-				}
-				else{
-					return resolve({amount:amount, asset: asset});
-				}
-			});
-		})
+		return verifyPaymentPackage(objPaymentPackage);
+	}
+
+	getPaymentPackage(amount, aa_address) {
+		return getPaymentPackage(amount, aa_address)
 	}
 
 }
@@ -100,7 +91,7 @@ class Client {
 		return new Promise((resolve, reject) => {
 			if (!isHeadlessReady)
 				throw Error("Headless not ready");
-			channels.getChannelsForPeer(this.peer_address, null, (error, aa_addresses) => {
+			channels.getChannelsForPeer(this.peer_address, this.asset, (error, aa_addresses) => {
 				if (error) {
 					console.log("no channel found for this peer, I'll create one");
 					channels.createNewChannel(this.peer_address, this.fill_amount, {
@@ -122,19 +113,12 @@ class Client {
 		});
 	}
 
-	getPaymentPackage(amount){
-		return new Promise((resolve, reject) => {
-			if (!isHeadlessReady)
-				return reject("Headless not ready");
-			if (!validationUtils.isPositiveInteger(amount))
-				return reject("amount must be a positive integer");
-			channels.getPaymentPackage(amount, this.aa_address, (error, objSignedPackage)=>{
-				if (error)
-					return reject(error);
-				else
-					return resolve(objSignedPackage);
-			});
-		});
+	verifyPaymentPackage(objPaymentPackage){
+		return verifyPaymentPackage(objPaymentPackage);
+	}
+
+	getPaymentPackage(amount) {
+		return getPaymentPackage(amount, this.aa_address)
 	}
 
 	sweep() {
@@ -165,6 +149,37 @@ class Client {
 			});
 		});
 	}
+}
+
+function verifyPaymentPackage(objPaymentPackage){
+	if (!isHeadlessReady)
+		throw Error("Headless not ready");
+	return new Promise((resolve, reject) => {
+		channels.verifyPaymentPackage(objPaymentPackage, (error, amount, asset, aa_address)=>{
+			if (error){
+				console.log(error);
+				return resolve({amount:0, error: error});
+			}
+			else{
+				return resolve({amount:amount, asset: asset, aa_address: aa_address});
+			}
+		});
+	})
+}
+
+function getPaymentPackage(amount, aa_address){
+	return new Promise((resolve, reject) => {
+		if (!isHeadlessReady)
+			return reject("Headless not ready");
+		if (!validationUtils.isPositiveInteger(amount))
+			return reject("amount must be a positive integer");
+		channels.getPaymentPackage(amount, aa_address, (error, objSignedPackage)=>{
+			if (error)
+				return reject(error);
+			else
+				return resolve(objSignedPackage);
+		});
+	});
 }
 
 exports.Server = Server;

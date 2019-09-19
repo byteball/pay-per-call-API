@@ -42,15 +42,25 @@ payPerCallServer.startWhenReady().then(function(){ // server will actually start
 });
 ```
 
-* Verify a payment received from peer
+* Verify a payment package received from peer
 
 ```javascript
 	const objPayment = await payPerCallServer.verifyPaymentPackage(objPaymentPackage);
 	if (objPayment.error){
 		console.error(objPayment.error);
 	} else
-		console.error("Peer paid " + objPayment.amount + " in " + objPayment.asset);
+		console.error("Peer paid " + objPayment.amount + " in " + objPayment.asset + " using channel " + objPayment.aa_address);
 ```
+
+
+* Get payment package (can be used to refund a client if his request couldn't be served)
+```javascript
+try {
+	const objPaymentPackage = await payPerCallClient.getPaymentPackage(amount, aa_address).then(function(objPaymentPackage){
+	})
+} catch (error){
+	console.error("Couldn't create payment package, reason: " + error);
+}
 
 ## Client side
 
@@ -81,11 +91,21 @@ After client started, these functions are available:
 
 * Get payment package
 ```javascript
-payPerCallClient.getPaymentPackage(40000).then(function(objPaymentPackage){
+try {
+	const objPaymentPackage = await payPerCallClient.getPaymentPackage(amount)
+} catch (error){
+	console.error("Couldn't create payment package, reason: " + error);
+}
+```
 
-}).catch(function(error){
+* Verify a payment package received from server
 
-});
+```javascript
+	const objPayment = await payPerCallServer.verifyPaymentPackage(objPaymentPackage);
+	if (objPayment.error){
+		console.error(objPayment.error);
+	} else
+		console.error("Peer paid " + objPayment.amount + " in " + objPayment.asset + " using channel " + objPayment.aa_address);
 ```
 
 * Sweep channel (closing then reopening) when convenient `client.sweepChannel();`, it should happen within the max sweeping period imposed by the server.

@@ -1,19 +1,19 @@
 const payPerCall = require("../../");
 
-const payPerCallClient = new payPerCall.Client("CWNPFF6YAZWFEOZXKRB6527NZ47OFYRE", null, 50000, 10000); // (peer url, asset, deposits amount, refill threshold)
+const payPerCallClient = new payPerCall.Client("CWNPFF6YAZWFEOZXKRB6527NZ47OFYRE", null, 100000, 20000); // (peer url, asset, deposits amount, refill threshold)
 
 payPerCallClient.startWhenReady().then(async function(){
 	console.error("client started");
 
-	await payPerCallClient.getPaymentPackage(40000).then(function(objPaymentPackage){
-		console.error(JSON.stringify(objPaymentPackage));
-	}).catch(function(error){
-		console.error(error);
-	});
+	//we generate a payment package
+	try{
+		const objPaymentPackage = await payPerCallClient.getPaymentPackage(40000);
+	} catch {
+		console.error("Coudln't create payment package, reason: " + error);
+	}
 
-}).catch(function(error){
-	console.error(error);
-});;
+
+});
 
 
 
