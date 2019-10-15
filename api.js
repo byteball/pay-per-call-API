@@ -89,7 +89,7 @@ class Client {
 					asset: this.asset
 				}, (error, aa_address)=>{
 					if (error)
-						return reject(error);
+						throw Error(error);
 					console.log("aa_address " + aa_address);
 					this.aa_address = aa_address;
 					eventBus.emit('client_ready');
