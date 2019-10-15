@@ -56,7 +56,7 @@ if (objPayment.error){
 * Get payment package (can be used to refund a client if his request couldn't be served)
 ```javascript
 try {
-	const objPaymentPackage = await payPerCallClient.getPaymentPackage(amount, aa_address).then(function(objPaymentPackage){
+	const objPaymentPackage = await payPerCallClient.createPaymentPackage(amount, aa_address).then(function(objPaymentPackage){
 	});
 } catch (error){
 	console.error("Couldn't create payment package, reason: " + error);
@@ -93,7 +93,7 @@ After client started, these functions are available:
 * Get payment package
 ```javascript
 try {
-	const objPaymentPackage = await payPerCallClient.getPaymentPackage(amount)
+	const objPaymentPackage = await payPerCallClient.createPaymentPackage(amount)
 } catch (error){
 	console.error("Couldn't create payment package, reason: " + error);
 }

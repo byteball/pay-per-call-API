@@ -1,5 +1,5 @@
 {
-  "name": "pay-per-call-HTTP-API",
+  "name": "pay-per-call-API",
   "version": "1.0.0",
   "description": "Library for pay-per-call API using payment channels",
   "main": "api.js",

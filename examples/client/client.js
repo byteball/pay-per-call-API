@@ -1,14 +1,16 @@
 const payPerCall = require("../../");
 
-const payPerCallClient = new payPerCall.Client("CWNPFF6YAZWFEOZXKRB6527NZ47OFYRE", null, 100000, 20000); // (peer url, asset, deposits amount, refill threshold)
+const payPerCallClient = new payPerCall.Client("CWNPFF6YAZWFEOZXKRB6527NZ47OFYRE", null, 100000, 20000); // (peer address, asset, deposits amount, refill threshold)
 
-payPerCallClient.startWhenReady().then(async function(){
+start();
+
+async function start(){
 	console.error("client started");
 
 	//we generate a payment package
 	try{
-		const objPaymentPackage = await payPerCallClient.getPaymentPackage(40000);
-	} catch {
+		const objPaymentPackage = await payPerCallClient.createPaymentPackage(40000);
+	} catch (error){
 		console.error("Coudln't create payment package, reason: " + error);
 	}
 	// objPaymentPackage can be encoded in JSON with JSON.stringify(objPaymentPackage) and transmitted to server alongside with your request
@@ -31,14 +33,13 @@ payPerCallClient.startWhenReady().then(async function(){
 		"definition":["sig",{"pubkey":"A6IMnIlrs+XI3TFjwIVdRnujE1692nLskboQugaKsMAQ"}]}]}`);
 
 	//it has to be treated with:
-	const objRefundFromServer = await payPerCallServer.verifyPaymentPackage(objPaymentPackageFromServer);
+	const objRefundFromServer = await payPerCallClient.verifyPaymentPackage(objPaymentPackageFromServer);
 	if (objRefundFromServer.error){
 		console.error(objRefundFromServer.error);
 	} else
 		console.error("Peer paid " + objRefundFromServer.amount + " in " + objRefundFromServer.asset + " using channel " + objRefundFromServer.aa_address);
 
-
-});
+}
 
 
 
