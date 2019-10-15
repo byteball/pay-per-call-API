@@ -104,16 +104,12 @@ class Client {
 	}
 
 	async verifyPaymentPackage(objPaymentPackage){
-		console.log('verifyPaymentPackage');
 		await this.waitNodeIsReady();
-		console.log('ready');
-
 		return verifyPaymentPackage(objPaymentPackage);
 	}
 
 	async createPaymentPackage(amount) {
 		await this.waitNodeIsReady();
-		console.log("this.aa_address " + this.aa_address);
 		return createPaymentPackage(amount, this.aa_address)
 	}
 
