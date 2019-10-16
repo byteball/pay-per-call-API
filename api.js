@@ -44,7 +44,7 @@ class Server {
 
 	async createPaymentPackage(amount, aa_address) {
 		await this.waitNodeIsReady();
-		return createPaymentPackage(amount, aa_address)
+		return createPaymentPackage(amount, aa_address);
 	}
 
 }

@@ -18,8 +18,7 @@ async function start(){
 
 	//let's say server sent back a refund in JSON format
 
-	// parse it
-
+	//we parse it
 	const objPaymentPackageFromServer = JSON.parse(`{
 		"version":"2.0t",
 		"signed_message":{
@@ -32,7 +31,7 @@ async function start(){
 		"authentifiers":{"r":"DXRAAmoJMAZyV2S6djwfRWMiFOG2B3sxHiVtCIogjlQ6mg+rhp0fQWKAumBySsH8N3zJuCkNI7hM5zYz4UXCQA=="},
 		"definition":["sig",{"pubkey":"A6IMnIlrs+XI3TFjwIVdRnujE1692nLskboQugaKsMAQ"}]}]}`);
 
-	//it has to be treated with:
+	//it has to be verified with:
 	const objRefundFromServer = await payPerCallClient.verifyPaymentPackage(objPaymentPackageFromServer);
 	if (objRefundFromServer.error){
 		console.error(objRefundFromServer.error);

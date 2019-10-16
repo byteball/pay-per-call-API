@@ -1,7 +1,7 @@
 # pay-per-call-API
 
 This package provides an easy way to add pay-per-call payments to an existing API by using [O<sub>byte</sub> payment channels](https://github.com/Papabyte/aa-channels-lib/).
-On client side, a payment package object is generated on request. On server side, a function can verify the payment package and returns any overpaid amount. 
+On client side, a payment package object is generated on request. On server side, a function can verify the payment package and returns any overpaid amount.
 While a channel is open, it's necessary to keep your node online and running since it has to watch Obyte network for any dishonest channel closure tentative from peer.
 
 ## Server side
@@ -18,8 +18,8 @@ exports.bSingleAddress = true;
 exports.hub = process.env.testnet ? 'obyte.org/bb-test' : 'obyte.org/bb';
 exports.deviceName = 'pay-per-call API server';
 
-exports.minChannelTimeoutInSecond = 1000; // minimal channel timeout acceptable
-exports.maxChannelTimeoutInSecond = 1000;  // maximal channel timeout acceptable
+exports.minChannelTimeoutInSeconds = 1000; // minimal channel timeout acceptable
+exports.maxChannelTimeoutInSeconds = 1000;  // maximal channel timeout acceptable
 
 exports.unconfirmedAmountsLimitsByAssetOrChannel = { // limits for accepting payments backed by unconfirmed deposit from peer
 	"base" : {
@@ -47,7 +47,7 @@ if (objPayment.error){
 ```
 
 
-* Get payment package (can be used to refund a client if his request couldn't be served)
+* Create payment package (can be used to refund a client if his request couldn't be served)
 ```javascript
 try {
 	const objPaymentPackage = await payPerCallClient.createPaymentPackage(amount, aa_address).then(function(objPaymentPackage){
@@ -75,7 +75,7 @@ exports.defaultTimeoutInSeconds = 1000; // default timeout for channel creation
 
 * Initialize `const payPerCallClient = new payPerCall.Client(peer address, asset, deposits amount, refill threshold);`
 
-* Get payment package
+* Create payment package
 ```javascript
 try {
 	const objPaymentPackage = await payPerCallClient.createPaymentPackage(amount)
