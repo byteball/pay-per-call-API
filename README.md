@@ -1,7 +1,8 @@
 # pay-per-call-API
 
 This package provides an easy way to add pay-per-call payments to an existing API by using [O<sub>byte</sub> payment channels](https://github.com/Papabyte/aa-channels-lib/).
-On client side, a payment package object is generated on request. On server side, a function can verify the payment package and returns the amount received. 
+On client side, a payment package object is generated on request. On server side, a function can verify the payment package and returns any overpaid amount. 
+While a channel is open, it's necessary to keep your node online and running since it has to watch Obyte network for any dishonest channel closure tentative from peer.
 
 ## Server side
 
@@ -34,13 +35,6 @@ exports.unconfirmedAmountsLimitsByAssetOrChannel = { // limits for accepting pay
 * Require module `const payPerCall = require("pay-per-call-API");`
 
 * Initialize `const payPerCallServer = new payPerCall.Server(max sweeping period in seconds);`
-
-* Start server node
-```javascript
-payPerCallServer.startWhenReady().then(function(){ // server will actually starts after the passphrase for headless wallet is entered
-	console.error("server started");
-});
-```
 
 * Verify a payment package received from peer
 
@@ -80,15 +74,6 @@ exports.defaultTimeoutInSecond = 1000; // default timeout for channel creation
 * Require module `const payPerCall = require("pay-per-call-API");`
 
 * Initialize `const payPerCallClient = new payPerCall.Client(peer address, asset, deposits amount, refill threshold);`
-
-* Start client
-```javascript
-payPerCallClient.startWhenReady().then(async function(){ // client will actually starts after the passphrase for headless wallet is entered
-	console.error("client started");
-});
-```
-
-After client started, these functions are available:
 
 * Get payment package
 ```javascript
