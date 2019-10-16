@@ -5,4 +5,4 @@ exports.bSingleAddress = true;
 exports.hub = process.env.testnet ? 'obyte.org/bb-test' : 'obyte.org/bb';
 exports.deviceName = 'pay-per-call API client';
 
-exports.defaultTimeoutInSecond = 1000; // default timeout for channel creation
+exports.defaultTimeoutInSeconds = 1000; // default timeout for channel creation
