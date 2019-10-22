@@ -58,6 +58,7 @@ class Client {
 		this.fill_amount = fill_amount;
 		this.refill_threshold = refill_threshold;
 		this.isInitialized = false;
+		this.isClosing = false;
 		if (areAAchannelsReady){
 			this.start();
 		} else {
@@ -120,10 +121,10 @@ class Client {
 				if (error){
 					console.log(error + ", will retry later");
 					setTimeout(()=>{
-						this.close().then(()=>{
-							return resolve();
-						})
-					}, 30000)
+						this.close().then(resolve);
+					}, 30000);
+				} else {
+					resolve();
 				}
 			})
 		});
@@ -131,9 +132,14 @@ class Client {
 
 	close() {
 		return new Promise((resolve, reject) => {
-			this.sweep().then(()=>{
-				channels.setAutoRefill(this.aa_address, 0, 0, ()=>{
-					return resolve();
+			if (this.isClosing)
+				return reject("Already closing");
+			else
+				this.isClosing = true;
+			channels.setAutoRefill(this.aa_address, 0, 0, ()=>{
+				this.sweep().then(()=>{
+					resolve();
+					this.isClosing = false;
 				});
 			});
 		});

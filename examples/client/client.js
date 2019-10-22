@@ -10,12 +10,12 @@ async function start(){
 	//we generate a payment package
 	try{
 		const objPaymentPackage = await payPerCallClient.createPaymentPackage(40000);
+		console.error(JSON.stringify(objPaymentPackage));	// objPaymentPackage can be encoded in JSON with JSON.stringify(objPaymentPackage) and transmitted to server alongside with your request
 	} catch (error){
 		console.error("Coudln't create payment package, reason: " + error);
 	}
-	// objPaymentPackage can be encoded in JSON with JSON.stringify(objPaymentPackage) and transmitted to server alongside with your request
 
-
+	
 	//let's say server sent back a refund in JSON format
 
 	//we parse it
