@@ -1,10 +1,10 @@
 {
-	"name": "API-client",
+	"name": "api-client",
 	"version": "1.0.0",
 	"description": "Example API server",
 	"main": "client.js",
 	"license": "MIT",
 	"dependencies": {
-		"pay-per-call": "git+https://github.com/Papabyte/pay-per-call-API"
+		"pay-per-call": "git+https://github.com/byteball/pay-per-call-API"
 	}
 }
