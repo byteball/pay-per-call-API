@@ -84,7 +84,7 @@ If your request was rejected by the server for any reason, check that you receiv
 ```javascript
 client.sweep();
 ```
-Closes the channel and frees up all the unspent money left on the channel. The channel will be automatically reopened if you send another request.
+Closes the channel and immediately reopens it. You might want to do this while the channel is idle to prevent the server from sweeping the channel at an inopportune moment when you want to send a request.
 
 ## Close channel 
 
