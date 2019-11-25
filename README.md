@@ -23,6 +23,8 @@ Response parameters:
 + payment_package: (optional) JSON-encoded payment package that contains a refund in case the request was not processed
 ```
 
+A RPC server can be enabled to access this library from software written in any langage.
+
 ## Server side
 
 * Add to your project `npm install --save https://github.com/byteball/pay-per-call-API`

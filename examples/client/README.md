@@ -26,7 +26,7 @@ exports.defaultTimeoutInSeconds = 1000; // default timeout for channel creation
 
 ```javascript
 const payPerCall = require("pay-per-call-API");
-const payPerCallClient = new payPerCall.Client(peer_address, asset, deposit_amount, refill_threshold);
+const payPerCallClient = new payPerCall.Client(peer_address, asset, deposit_amount, refill_threshold, rpcPort);
 ```
 
 #### Parameters
@@ -35,6 +35,7 @@ const payPerCallClient = new payPerCall.Client(peer_address, asset, deposit_amou
 *`asset`* `string` - asset used for payments, `base` for bytes
 *`deposit_amount`* `number` - amount of first deposit and subsequent refillings
 *`refill_threshold`* `number` - available spendable amount below which a new deposit will be made
+*`rpcPort`* `number` - (optional) local port to be listened by [RPC server](RPC.md)
 
 
 ## Create a payment package for server

@@ -1,6 +1,6 @@
 const payPerCall = require("../../");
 
-const payPerCallClient = new payPerCall.Client("CWNPFF6YAZWFEOZXKRB6527NZ47OFYRE", null, 100000, 20000); // (peer address, asset, deposits amount, refill threshold)
+const payPerCallClient = new payPerCall.Client("6BEYY3GWGKKFFJAM6AN22AS4VPQHDBG6", null, 100000, 20000); // (peer address, asset, deposits amount, refill threshold)
 
 start();
 
@@ -19,6 +19,7 @@ async function start(){
 	//let's say server sent back a refund in JSON format
 
 	//we parse it
+	
 	const objPaymentPackageFromServer = JSON.parse(`{
 		"version":"2.0t",
 		"signed_message":{
