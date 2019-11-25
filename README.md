@@ -1,6 +1,6 @@
 # Pay-Per-Call API Library
 
-This library allows to extend any API with micropayments that flow directy between client and server, no third parties, no intermediaries.
+This library allows to extend any API with micropayments that flow directly between client and server, no third parties, no intermediaries.
 
 Micropayments are signed messages that are included as part of client requests, the server verifies them before providing the service.  Each payment pays only for the request it comes with and can be as small as a fraction of a cent.
 
