@@ -8,6 +8,8 @@ The client and server don't need to trust each other, they can easily start work
 
 The library uses [O<sub>byte</sub> payment channels](https://github.com/Papabyte/aa-channels-lib/) under the hood. It can work with any crypto asset issued on O<sub>byte</sub>, including stablecoins.
 
+Currently, the library works on testnet only, it will be available on livenet once Autonomous Agents are released there. Stablecoins will become available soon after.
+
 Existing APIs can be extended to accept payments using this library:
 ```diff
 Request parameters:
