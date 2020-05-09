@@ -7,6 +7,6 @@
 	"dependencies": {
 		"aa-channels-lib": "git+https://github.com/Papabyte/aa-channels-lib.git",
 		"json-rpc2": "^1.0.2",
-		"ocore": "git+https://github.com/byteball/ocore.git#rocks-and-formulas"
+		"ocore": "git+https://github.com/byteball/ocore.git"
 	}
 }
