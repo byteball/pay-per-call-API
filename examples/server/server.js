@@ -1,5 +1,5 @@
 const payPerCall = require("../../");
-const payPerCallServer = new payPerCall.Server(60*60*24*7); // we listen on port 6000
+const payPerCallServer = new payPerCall.Server(60*60*24*7);
 
 start();
 

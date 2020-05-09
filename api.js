@@ -2,17 +2,42 @@ const channels = require("aa-channels-lib");
 const eventBus = require("ocore/event_bus.js");
 const validationUtils = require('ocore/validation_utils.js');
 const db = require('ocore/db.js');
+const rpc = require('json-rpc2');
 
 var areAAchannelsReady = false;
+
+
 
 eventBus.on('aa_channels_ready', function(){
 	areAAchannelsReady = true;
 });
 
 class Server {
-	constructor(sweepingPeriod) {
+	constructor(sweepingPeriod, rpcPort) {
 		this.sweepingPeriod = sweepingPeriod;
 		this.sweepChannelsIfPeriodExpired(this.sweepingPeriod);
+		if (rpcPort)
+			this.initRpcServer(rpcPort);
+	}
+
+	initRpcServer(rpcPort){
+		var server = rpc.Server.$create();
+
+		server.expose('createPaymentPackage', (args, opt, callback)=>{
+			this.createPaymentPackage(args[0], args[1]).then((paymentPackage)=>{
+				callback(null, paymentPackage);
+			}).catch((error)=>{
+				callback(error);
+			});
+		});
+
+		server.expose('verifyPaymentPackage', (args, opt, callback)=>{
+			this.verifyPaymentPackage(args[0]).then((objResult)=>{
+				callback(null, objResult);
+			})
+		});
+
+		server.listen(rpcPort, 'localhost');
 	}
 
 	waitNodeIsReady(){
@@ -52,7 +77,7 @@ class Server {
 
 class Client {
 
-	constructor(peer_address, asset, fill_amount, refill_threshold) {
+	constructor(peer_address, asset, fill_amount, refill_threshold, rpcPort) {
 		this.peer_address = peer_address;
 		this.asset = asset;
 		this.fill_amount = fill_amount;
@@ -66,6 +91,43 @@ class Client {
 				this.start();
 			});
 		}
+
+		if (rpcPort)
+			this.initRpcServer(rpcPort);
+	}
+
+	initRpcServer(rpcPort){
+		var server = rpc.Server.$create();
+
+		server.expose('createPaymentPackage', (args, opt, callback)=>{
+			this.createPaymentPackage(args[0]).then((paymentPackage)=>{
+				callback(null, paymentPackage);
+			}).catch((error)=>{
+				callback(error);
+			});
+		});
+
+		server.expose('verifyPaymentPackage', (args, opt, callback)=>{
+			this.verifyPaymentPackage(args[0]).then((objResult)=>{
+				callback(null, objResult);
+			})
+		});
+
+		server.expose('sweep', (args, opt, callback)=>{
+			this.sweep(true).then(()=>{
+				callback(null, "channel is being swept");
+			})
+		});
+
+		server.expose('close', (args, opt, callback)=>{
+			this.close(true).then(()=>{
+				callback(null, "channel is closing");
+			}).catch((error)=>{
+				callback(error);
+			});
+		});
+
+		server.listen(rpcPort, 'localhost');
 	}
 
 	waitNodeIsReady(){
@@ -114,15 +176,19 @@ class Client {
 		return createPaymentPackage(amount, this.aa_address)
 	}
 
-	sweep() {
+	sweep(bDontRetry) {
 		return new Promise(async (resolve, reject) => {
 			await this.waitNodeIsReady();
 			channels.close(this.aa_address, (error)=>{
 				if (error){
-					console.log(error + ", will retry later");
-					setTimeout(()=>{
-						this.close().then(resolve);
-					}, 30000);
+					if (bDontRetry){
+						reject(error);
+					} else {
+						console.log(error + ", will retry later");
+						setTimeout(()=>{
+							this.close().then(resolve);
+						}, 30000);
+					}
 				} else {
 					resolve();
 				}
@@ -130,14 +196,14 @@ class Client {
 		});
 	}
 
-	close() {
+	close(bDontRetry) {
 		return new Promise((resolve, reject) => {
 			if (this.isClosing)
 				return reject("Already closing");
 			else
 				this.isClosing = true;
 			channels.setAutoRefill(this.aa_address, 0, 0, ()=>{
-				this.sweep().then(()=>{
+				this.sweep(bDontRetry).then(()=>{
 					resolve();
 					this.isClosing = false;
 				});

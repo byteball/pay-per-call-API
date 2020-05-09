@@ -44,13 +44,13 @@ Longer timeouts are safer but unlocking your money from a payment channel would 
 
 ```javascript
 const payPerCall = require("pay-per-call-API");
-const payPerCallServer = new payPerCall.Server(maxSweepingPeriod);
+const payPerCallServer = new payPerCall.Server(maxSweepingPeriod, rpcPort);
 ```
 
 #### Parameters
 
 *`maxSweepingPeriod`* `number` - Time in seconds after which the server will automatically close the channel if client didn't do it meanwhile.
-
+*`rpcPort`* `number` - (optional) local port to be listened by [RPC server](RPC.md)
 
 
 ## Verify a payment package received from client
