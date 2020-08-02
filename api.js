@@ -197,11 +197,12 @@ class Client {
 	}
 
 	close(bDontRetry) {
-		return new Promise((resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			if (this.isClosing)
 				return reject("Already closing");
 			else
 				this.isClosing = true;
+			await this.waitNodeIsReady();
 			channels.setAutoRefill(this.aa_address, 0, 0, ()=>{
 				this.sweep(bDontRetry).then(()=>{
 					resolve();

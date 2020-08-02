@@ -21,16 +21,31 @@ async function start(){
 	//we parse it
 	
 	const objPaymentPackageFromServer = JSON.parse(`{
-		"version":"2.0t",
-		"signed_message":{
-			"payment_amount":5000,
-			"amount_spent":10000
-			,"period":1,
-			"aa_address":"PHA6RO4FVYKAY5QND77RF4V67ESHLZYJ"
-		},
-		"authors":[{"address":"CWNPFF6YAZWFEOZXKRB6527NZ47OFYRE",
-		"authentifiers":{"r":"DXRAAmoJMAZyV2S6djwfRWMiFOG2B3sxHiVtCIogjlQ6mg+rhp0fQWKAumBySsH8N3zJuCkNI7hM5zYz4UXCQA=="},
-		"definition":["sig",{"pubkey":"A6IMnIlrs+XI3TFjwIVdRnujE1692nLskboQugaKsMAQ"}]}]}`);
+			"version": "3.0t",
+			"signed_message": {
+				"payment_amount": 40000,
+				"amount_spent": 40000,
+				"period": 1,
+				"aa_address": "ZLOL6G2KP5T2QJN7CJIEXU5KWH257L7R",
+				"channel_parameters": {
+					"timeout": 1000,
+					"asset": "base",
+					"salt": "f055cdbab16be311b32bff0f6f93391f3bec4f403eed0a58d9",
+					"address": "A5BZYPZPBE6WK4WWGNBCDMIIV2SI7GNM",
+					"version": "1.0"
+				}
+			},
+			"authors": [{
+				"address": "A5BZYPZPBE6WK4WWGNBCDMIIV2SI7GNM",
+				"authentifiers": {
+					"r": "Bh9nYxl7vWi99bl9JJzgnQIkw35/YH62dwkd9pRUDwZyZ1edJ2/ygaih4m2Rt8jhRbIuRM6LEmcgUT273U7YjA=="
+				},
+				"definition": ["sig", {
+					"pubkey": "AutsyvnjeTMJr+9iGe6w5QIs6n92DIqpYqq1qrxUJ2Z0"
+				}]
+			}]
+		}`
+	);
 
 	//it has to be verified with:
 	const objRefundFromServer = await payPerCallClient.verifyPaymentPackage(objPaymentPackageFromServer);
