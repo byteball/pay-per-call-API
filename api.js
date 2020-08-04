@@ -155,13 +155,15 @@ class Client {
 						throw Error(error);
 					console.log("aa_address " + aa_address);
 					this.aa_address = aa_address;
-					eventBus.emit('client_ready');
-					channels.setAutoRefill(aa_address, this.fill_amount, this.refill_threshold, ()=>{});
+					channels.setAutoRefill(aa_address, this.fill_amount, this.refill_threshold, ()=>{
+						eventBus.emit('client_ready');
+					});
 				});
 			} else {
 				this.aa_address = aa_addresses[0];
-				eventBus.emit('client_ready');
-				channels.setAutoRefill(aa_addresses[0], this.fill_amount, this.refill_threshold, ()=>{});
+				channels.setAutoRefill(aa_addresses[0], this.fill_amount, this.refill_threshold, ()=>{
+					eventBus.emit('client_ready');
+				});
 			}
 		});
 	}
