@@ -58,7 +58,7 @@ class Server {
 		db.query("SELECT DISTINCT(aa_address) FROM channels INNER JOIN units ON units.main_chain_index=channels.last_updated_mci \n\
 		WHERE status='open' AND (strftime('%s', 'now')-timestamp) > ?", [sweepingPeriod], (rows)=>{
 			rows.forEach((row)=>{
-				channels.close(row.aa_address, (error)=>{});
+				channels.sweep(row.aa_address, (error)=>{});
 			})
 		});
 	}
@@ -181,14 +181,14 @@ class Client {
 	sweep(bDontRetry) {
 		return new Promise(async (resolve, reject) => {
 			await this.waitNodeIsReady();
-			channels.close(this.aa_address, (error)=>{
+			channels.sweep(this.aa_address, (error)=>{
 				if (error){
 					if (bDontRetry){
 						reject(error);
 					} else {
 						console.log(error + ", will retry later");
 						setTimeout(()=>{
-							this.close().then(resolve);
+							this.sweep().then(resolve);
 						}, 30000);
 					}
 				} else {
@@ -205,11 +205,20 @@ class Client {
 			else
 				this.isClosing = true;
 			await this.waitNodeIsReady();
-			channels.setAutoRefill(this.aa_address, 0, 0, ()=>{
-				this.sweep(bDontRetry).then(()=>{
+			channels.close(this.aa_address, (error)=>{
+				if (error){
+					if (bDontRetry){
+						reject(error);
+					} else {
+						console.log(error + ", will retry later");
+						setTimeout(()=>{
+							this.close().then(resolve);
+						}, 30000);
+					}
+				} else {
 					resolve();
-					this.isClosing = false;
-				});
+				}
+				this.isClosing = false;
 			});
 		});
 	}
