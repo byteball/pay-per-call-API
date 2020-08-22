@@ -132,12 +132,11 @@ class Client {
 
 	waitNodeIsReady(){
 		return new Promise((resolve) => {
-			console.log("waitNodeIsReady");
 			if (this.aa_address ){
 					return resolve();
 			} else {
 				eventBus.on('client_ready', ()=>{
-						return resolve();
+					setTimeout(resolve, 1000); // delay for the peer to receive deposit unit 
 				});
 			}
 		})
